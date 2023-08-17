@@ -55,7 +55,10 @@ impl Menu {
         let mut task = String::new();
         io::stdin().read_line(&mut task).unwrap();
 
-        self.todo_repository.add_task(task);
+        match self.todo_repository.add_task(task) {
+            Ok(_) => println!("Task added successfully"),
+            Err(err) => println!("Error: {}", err),
+        }
     }
 
     fn list_tasks(&self) {
@@ -78,7 +81,10 @@ impl Menu {
             }
         };
 
-        self.todo_repository.mark_as_done(id);
+        match self.todo_repository.mark_as_done(id) {
+            Ok(_) => println!("Task marked as done successfully"),
+            Err(err) => println!("Error: {}", err),
+        }
     }
 
     fn remove_task(&mut self) {
@@ -95,6 +101,9 @@ impl Menu {
             }
         };
 
-        self.todo_repository.remove_task(id);
+        match self.todo_repository.remove_task(id) {
+            Ok(_) => println!("Task removed successfully"),
+            Err(err) => println!("Error: {}", err),
+        }
     }
 }
