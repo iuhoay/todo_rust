@@ -19,11 +19,12 @@ impl Menu {
             self.display_menu();
 
             // Read input from the user
-            let mut choice = String::new();
-            io::stdin().read_line(&mut choice).unwrap();
-            let choice: u8 = match choice.trim().parse() {
+            let choice = match Self::read_input_as_usize() {
                 Ok(num) => num,
-                Err(_) => continue,
+                Err(err) => {
+                    println!("{}", err);
+                    continue;
+                }
             };
 
             match choice {
@@ -34,6 +35,15 @@ impl Menu {
                 5 => break,
                 _ => println!("Invalid choice. Please enter a number between 1 and 5"),
             }
+        }
+    }
+
+    fn read_input_as_usize() -> Result<usize, &'static str> {
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).unwrap();
+        match input.trim().parse::<usize>() {
+            Ok(num) => Ok(num),
+            Err(_) => Err("Please enter a number"),
         }
     }
 
@@ -71,12 +81,10 @@ impl Menu {
         println!("Enter the ID of the task to mark as done:");
         io::stdout().flush().unwrap();
 
-        let mut id = String::new();
-        io::stdin().read_line(&mut id).unwrap();
-        let id: usize = match id.trim().parse() {
+        let id = match Self::read_input_as_usize() {
             Ok(num) => num,
-            Err(_) => {
-                println!("Please enter a number");
+            Err(err) => {
+                println!("{}", err);
                 return;
             }
         };
@@ -91,12 +99,10 @@ impl Menu {
         print!("Enter the ID of the task to remove:");
         io::stdout().flush().unwrap();
 
-        let mut id = String::new();
-        io::stdin().read_line(&mut id).unwrap();
-        let id: usize = match id.trim().parse() {
+        let id = match Self::read_input_as_usize() {
             Ok(num) => num,
-            Err(_) => {
-                println!("Please enter a number");
+            Err(err) => {
+                println!("{}", err);
                 return;
             }
         };
